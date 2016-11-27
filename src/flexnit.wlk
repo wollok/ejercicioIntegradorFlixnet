@@ -1,33 +1,22 @@
-object flexnit{
+object empresa{
 	var contenidos = []
 	
-	method contenidosNoCalificados(){
+	method sinCalificar(){
 		return contenidos.filter({contenido => contenido.sinCalificar()})
 	}
 	method agregarContenido(contenido){
 		contenidos.add(contenido)
 	}
-	method mismoDirectorYGeneroQue(buscado) {
-		return contenidos.filter({contenido => contenido.director() == buscado.contenido() && contenido.genero() == buscado.genero()})
+	method mismoDirectorQue(buscado) {
+		return contenidos.filter({contenido => contenido.mismoDirector(buscado)})
 	}	
 	method mismoActorQue(buscado) {
-		return contenidos.filter({contenido => contenido.mismoActor(buscado) })
+		return contenidos.filter({contenido => contenido.mismoActor(buscado)})
 	}
 	method sugerenciasEstandar(){
 		return contenidos.take(3)
 	}		
 	
-}
-class Calificacion {
-	var contenido
-	var estrellas
-	
-	constructor(_audioVisual, _calificacion){
-		contenido= _audioVisual
-		estrellas= _calificacion 
-	}
-	method contenido() = contenido
-	method estrellas() = estrellas 	
 }
 
 class Contenido {
@@ -50,36 +39,44 @@ class Contenido {
 	method calificar(estrellas){
 		calificaciones.add(estrellas)	
 	}
+	method mismoActor(actor){
+		return false
+	}
+	
+	method mismoDirector(buscado) {
+		return false
+	}
 	
 }
 
 class ContenidoSimple inherits Contenido{
-	// Capitulo de serie, película
+	// Capitulo de serie o película
 	var duracion
-	var genero
 	var director
 	var actores = []
 	
-	constructor(_titulo, _duracion,_genero,_director, _actores) = super(_titulo) {
-		duracion = _duracion
-		genero = _genero
-		director = _director
-		actores = _actores
+	constructor( tit, dur, dir, act) = super( tit) {
+		duracion = dur
+		director = dir
+		actores = act
 	}
 	//method titulo(){return titulo}
 	//method duracion() {return duracion}
-	method genero(){return genero}
-	method director(){return director}
 	//method actores() {return actores}
+	method director(){return director}
 	
 	method trabajoActor(actor){
 		return actores.contains(actor) 
 	}
+	
 	method trabajo(persona){
 		return self.trabajoActor(persona) or director == persona
 	}
 	
-	method mismoActor(buscado) {
+	override method mismoDirector(buscado) {
+		return director == buscado.director()
+	}
+	override method mismoActor(buscado) {
 		return actores.any{actor=>buscado.trabajoActor(actor)}
 	}
 }
@@ -87,8 +84,8 @@ class ContenidoSimple inherits Contenido{
 class ContenidoCompuesto inherits Contenido{
 	//serie, saga, temporada
 	var capitulos = []
-	constructor(_titulo,_capitulos)= super(_titulo) {
-		capitulos = _capitulos
+	constructor( tit, caps)= super(tit) {
+		capitulos = caps
 	}
 	override method calificar(estrellas){
 		super(estrellas)

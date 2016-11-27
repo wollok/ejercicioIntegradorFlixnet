@@ -1,45 +1,59 @@
-import flexnit.*
+class NoVioNadaException inherits Exception {}
+class NoHaySugerenciasException inherits Exception {}
 
 class Usuario{
-	var nombre
-	var apellido
-	var edad
 	var contenidosVistos = [] 
 	var calificaciones = []
-	var tipoDeUsuario
+	var perfil
 	
-	constructor(_nombre, _apellido, _edad, _tipoDeUsuario){
-		nombre = _nombre
-		apellido = _apellido
-		edad = _edad
-		tipoDeUsuario = _tipoDeUsuario
+	constructor( p){
+		perfil = p
 	}
-//	method audioVisualesVistos(){return audioVisualesVistos}
-//	method audioVisualesCalificados(){return audioVisualesCalificados}
 	
 	method calificar(contenido,estrellas){
 		calificaciones.add(new Calificacion(contenido, estrellas))
 		contenido.calificar(estrellas)
 	}
-	method verAudioVisual(contenido){
+	method ver(contenido){
 		contenidosVistos.add(contenido)
 	}
-	method contenidoVisto(contenido){
+	method vio(contenido){
 		return contenidosVistos.contains(contenido) 
 	}
 	method vistosYCalificados(){
-		return calificaciones.filter({calificacion => self.contenidoVisto(calificacion.contenido())})
+		return calificaciones.filter({calificacion => self.vio(calificacion.contenido())})
 	}
 	method mejorCalificado(){
 		var vistosYCalificados = self.vistosYCalificados()
 		if(vistosYCalificados.isEmpty())
-			throw new Exception("no califico nada de lo que vio")
+			throw new NoVioNadaException()
+			
 		return (vistosYCalificados.max({calificacion => calificacion.estrellas()})).contenido()
 	}
+	
+	//SUGERENCIAS
+	method sugerencia(){
+		return self.elegirNoVisto(perfil.buscarPropuestas(self.ultimoVisto()) ) 
+	}
+
 	method ultimoVisto(){
-		return contenidosVistos.last()
+	if(contenidosVistos.isEmpty())
+		throw new NoVioNadaException()	
+	return contenidosVistos.last()
 	}
 	method elegirNoVisto(propuestas) {
-		return propuestas.find({contenido => !contenidosVistos.contains(contenido)})
+		return propuestas.findOrElse({contenido => !contenidosVistos.contains(contenido)}, {throw new NoHaySugerenciasException()})
 	}
+}
+
+class Calificacion {
+	var contenido
+	var estrellas
+	
+	constructor(_audioVisual, _calificacion){
+		contenido= _audioVisual
+		estrellas= _calificacion 
+	}
+	method contenido() = contenido
+	method estrellas() = estrellas 	
 }
