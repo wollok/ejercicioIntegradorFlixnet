@@ -1,7 +1,7 @@
 import usuarios.*
 import perfiles.*
 import flexnit.*
-
+ 
 object fixture {
 	const juan = new Usuario(fanatico)
 	const ana = new Usuario(distinguido)

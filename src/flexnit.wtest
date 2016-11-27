@@ -2,7 +2,7 @@ import usuarios.*
 import perfiles.*
 import flexnit.*
 import fixture.*
-
+ 
 // Solo peliculas
 test "Promedio de calificacion de la historia oficial es 4" {
 	
