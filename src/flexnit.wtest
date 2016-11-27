@@ -1,0 +1,95 @@
+import usuarios.*
+import perfiles.*
+import flexnit.*
+import fixture.*
+
+// Solo peliculas
+test "Promedio de calificacion de la historia oficial es 4" {
+	
+	fixture.escenarioBasico() 
+	assert.equals(4, fixture.laHistoria().calificacionPromedio())
+}
+
+test "La pelicula mejor calificada por un usario es el Secreto" {
+	fixture.escenarioBasico() 
+	assert.equals(fixture.elSecreto(), fixture.juan().mejorCalificado())
+}
+
+test "Una sola pelicula sin calificar" {
+	fixture.escenarioBasico() 
+	assert.equals([fixture.relatos()], empresa.sinCalificar())
+}
+
+test "Darin trabajo en Relatos Salvajes" {
+	assert.that(fixture.relatos().trabajo("Darin"))
+}
+
+
+//Mucho mas que peliculas
+
+test "Simpson capitulo1 temporada1, 3 de promedio de calificacion " {
+	fixture.escenarioAvanzado() 
+	assert.equals(3, fixture.simpsonC1T1().calificacionPromedio())
+}
+test "Simpson capitulo2 temporada1, 4 de promedio de calificacion " {
+	fixture.escenarioAvanzado() 
+	assert.equals(4, fixture.simpsonC2T1().calificacionPromedio())
+}
+
+test "Simpson temporada1, 4 de promedio de calificacion " {
+	fixture.escenarioAvanzado() 
+	assert.equals(4, fixture.simpsonT1().calificacionPromedio())
+}
+
+test "Simpson, 5 de promedio de calificacion " {
+	fixture.escenarioAvanzado() 
+	assert.equals(5, fixture.simpson().calificacionPromedio())
+}
+
+test "La pelicula mejor calificada por juan es el Secreto, aun calificando capitulos de los simpson" {
+	fixture.escenarioAvanzado() 
+	assert.equals(fixture.elSecreto(), fixture.juan().mejorCalificado())
+}
+
+test "Ana no vio nada de lo que califico" {
+	fixture.escenarioAvanzado() 
+	assert.throwsExceptionWithType(new NoVioNadaException(), {fixture.ana().mejorCalificado()})
+}
+
+test "Una sola pelicula sin calificar, en escenario avanzado" {
+	fixture.escenarioBasico() 
+	assert.equals([fixture.relatos()], empresa.sinCalificar())
+}
+
+test "Groening trabajo en los simpson" {
+	assert.that(fixture.simpson().trabajo("Groening"))
+}
+
+test "Bart trabajo en los simpson" {
+	assert.that(fixture.simpson().trabajo("Bart"))
+}
+
+// Sugerencias
+test "A juan se le sugiere ver Relatos salvajes, en escenario basico" {
+	//Mismo actor, Darin
+	fixture.escenarioBasico()
+	assert.equals(fixture.relatos(),fixture.juan().sugerencia())
+}
+
+test "No hay nada para sugerir a juan en escenario avanzado" {
+	//No hay actor en comun en capitulo de los simpson
+	fixture.escenarioAvanzado()
+	assert.throwsExceptionWithType(new NoHaySugerenciasException(), {fixture.juan().sugerencia()})
+}
+
+test "A ana se le sugiere ver luna de avellaneda, en escenario basico" {
+	// mismo director, Campanella
+	fixture.escenarioBasico()
+	assert.equals(fixture.luna(),fixture.ana().sugerencia())
+}
+test "A ana se le sugiere ver el capitulo 1 temporada 1 de los simpson, en escenario avanzado" {
+	// mismo director, Groening
+	fixture.escenarioAvanzado()
+	assert.equals(fixture.simpsonC1T1(),fixture.ana().sugerencia())
+}
+
