@@ -2,6 +2,8 @@
 
 ## Ejercicio integrador 
 
+![](flexnit.jpg)
+
 **Hoy en día con un abono mensual, conexión a internet y una pantalla se puede ver una enorme cantidad de material audiovisual. Películas modernas y antiguas, trilogías u otras sagas, series, y lo que se les ocurra (o mejor dicho, lo que la empresa quiera) está disponible en todo momento. Lo interesante, es que se puede interactuar calificando el contenido y que -de alguna manera misteriosa- la empresa te va conociendo y te sugiere cosas para que ver.**
   
 Bien, pero no se trata de contar lo que ya se sabe, sino comenzar a delimitar lo que nos preocupa del problema y plantear lo que necesitamos.
