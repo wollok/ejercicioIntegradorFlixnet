@@ -6,6 +6,7 @@ import flexnit.*
 describe "Tests" {
 	const juan = new Usuario(fanatico)
 	const ana = new Usuario(distinguido)
+	const pablo = new Usuario(aburrido)
 
 	const laHistoria = new ContenidoSimple("La Historia Oficial", 112, "Puenzo", ["Aleandro", "Alterio"])
 	const elSecreto = new ContenidoSimple("El secreto de sus ojos", 140, "Campanella", ["Darin", "Villamil","Francella"])
@@ -100,9 +101,9 @@ test "La pelicula mejor calificada por juan es el Secreto, aun calificando capit
 	assert.equals(elSecreto, juan.mejorCalificado())
 }
 
-test "Ana no vio nada de lo que califico" {
+test "Pablo no vio nada, no se le puede sugerir " {
 	self.escenarioAvanzado() 
-	assert.throwsExceptionWithType(new NoVioNadaException(), {ana.mejorCalificado()})
+	assert.throwsExceptionWithType(new NoVioNadaException(), {pablo.sugerencia()})
 }
 
 test "Una sola pelicula sin calificar, en escenario avanzado" {
@@ -126,7 +127,9 @@ test "A juan se le sugiere ver Relatos salvajes, en escenario basico" {
 test "No hay nada para sugerir a juan en escenario avanzado" {
 	//No hay actor en comun en capitulo de los simpson
 	self.escenarioAvanzado()
-	assert.throwsExceptionWithType(new NoHaySugerenciasException(), {juan.sugerencia()})
+	//assert.throwsExceptionWithType(new List(), {juan.sugerencia()})
+	assert.throwsException({juan.sugerencia()})
+	//assert.throwsExceptionWithType('hola', {juan.sugerencia()})
 }
 
 test "A ana se le sugiere ver luna de avellaneda, en escenario basico" {

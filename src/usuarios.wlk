@@ -1,5 +1,5 @@
-class NoVioNadaException inherits Exception {}
-class NoHaySugerenciasException inherits Exception {}
+class NoVioNadaException {} //inherits Exception {}
+class NoHaySugerenciasException {} // inherits Exception {}
 
 class Usuario{
 	var contenidosVistos = [] 
@@ -20,15 +20,16 @@ class Usuario{
 	method vio(contenido){
 		return contenidosVistos.contains(contenido) 
 	}
-	method vistosYCalificados(){
+	method calificacionesVistas(){
 		return calificaciones.filter({calificacion => self.vio(calificacion.contenido())})
 	}
 	method mejorCalificado(){
-		var vistosYCalificados = self.vistosYCalificados()
-		if(vistosYCalificados.isEmpty())
-			throw new NoVioNadaException()
+		var calificacionesVistas = self.calificacionesVistas()
+		if(calificacionesVistas.isEmpty())
+//			throw new NoHaySugerenciasException()
+			throw new List()
 			
-		return (vistosYCalificados.max({calificacion => calificacion.estrellas()})).contenido()
+		return (calificacionesVistas.max({calificacion => calificacion.estrellas()})).contenido()
 	}
 	
 	//SUGERENCIAS
@@ -42,7 +43,7 @@ class Usuario{
 	return contenidosVistos.last()
 	}
 	method elegirNoVisto(propuestas) {
-		return propuestas.findOrElse({contenido => !contenidosVistos.contains(contenido)}, {throw new NoHaySugerenciasException()})
+		return propuestas.findOrElse({contenido => !contenidosVistos.contains(contenido)}, {throw new List()})
 	}
 }
 
