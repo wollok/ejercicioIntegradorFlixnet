@@ -1,17 +1,13 @@
-class NoVioNadaException {} //inherits Exception {}
-class NoHaySugerenciasException {} // inherits Exception {}
+class NoVioNadaException inherits Exception {}
+class NoHaySugerenciasException inherits Exception {}
 
 class Usuario{
 	var contenidosVistos = [] 
 	var calificaciones = []
 	var perfil
 	
-	constructor( p){
-		perfil = p
-	}
-	
 	method calificar(contenido,estrellas){
-		calificaciones.add(new Calificacion(contenido, estrellas))
+		calificaciones.add(new Calificacion(contenido=contenido, estrellas=estrellas))
 		contenido.calificar(estrellas)
 	}
 	method ver(contenido){
@@ -26,8 +22,7 @@ class Usuario{
 	method mejorCalificado(){
 		var calificacionesVistas = self.calificacionesVistas()
 		if(calificacionesVistas.isEmpty())
-//			throw new NoHaySugerenciasException()
-			throw new List()
+			throw new NoHaySugerenciasException()
 			
 		return (calificacionesVistas.max({calificacion => calificacion.estrellas()})).contenido()
 	}
@@ -43,18 +38,15 @@ class Usuario{
 	return contenidosVistos.last()
 	}
 	method elegirNoVisto(propuestas) {
-		return propuestas.findOrElse({contenido => !contenidosVistos.contains(contenido)}, {throw new List()})
+		return propuestas.findOrElse(
+			{contenido => !contenidosVistos.contains(contenido)},
+			{throw new NoHaySugerenciasException()}
+		)
 	}
 }
 
 class Calificacion {
-	var contenido
-	var estrellas
+	var property contenido
+	var property estrellas
 	
-	constructor(_audioVisual, _calificacion){
-		contenido= _audioVisual
-		estrellas= _calificacion 
-	}
-	method contenido() = contenido
-	method estrellas() = estrellas 	
 }

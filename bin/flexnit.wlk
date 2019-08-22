@@ -23,17 +23,13 @@ class Contenido {
 	var calificaciones = []
 	var titulo
 
-	constructor(_titulo){
-		titulo = _titulo
-	}
-	
 	method sinCalificar() {
 		return calificaciones.isEmpty()
 	}
 
 	method calificacionPromedio(){
 		if (self.sinCalificar())
-			throw new Exception( "sin calificar")
+			throw new Exception(message = "sin calificar")
 		return calificaciones.sum() / calificaciones.size()
 	}
 	method calificar(estrellas){
@@ -50,20 +46,10 @@ class Contenido {
 }
 
 class ContenidoSimple inherits Contenido{
-	// Capitulo de serie o película
+	// Capitulo de serie o pelicula
 	var duracion
-	var director
+	var property director
 	var actores = []
-	
-	constructor( tit, dur, dir, act) = super( tit) {
-		duracion = dur
-		director = dir
-		actores = act
-	}
-	//method titulo(){return titulo}
-	//method duracion() {return duracion}
-	//method actores() {return actores}
-	method director(){return director}
 	
 	method trabajoActor(actor){
 		return actores.contains(actor) 
@@ -84,9 +70,7 @@ class ContenidoSimple inherits Contenido{
 class ContenidoCompuesto inherits Contenido{
 	//serie, saga, temporada
 	var capitulos = []
-	constructor( tit, caps)= super(tit) {
-		capitulos = caps
-	}
+
 	override method calificar(estrellas){
 		super(estrellas)
 		capitulos.forEach({unCap => unCap.calificar(estrellas)})	
