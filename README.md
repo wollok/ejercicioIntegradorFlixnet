@@ -1,6 +1,6 @@
 # Flixnet
  
-[![Build Status](https://travis-ci.org/wollok/ejercicioIntegradorFlixnet.svg?branch=master)](https://travis-ci.org/wollok/ejercicioIntegradorFlixnet)
+[![Build Status](https://github.com/wollok/ejercicioIntegradorFlixnet/actions/workflows/ci.yml/badge.svg)](https://github.com/wollok/ejercicioIntegradorFlixnet/actions/workflows/ci.yml)
 
 
 ## Ejercicio integrador 

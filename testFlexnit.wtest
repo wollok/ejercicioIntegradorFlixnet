@@ -1,0 +1,144 @@
+import usuarios.*
+import perfiles.*
+import flexnit.*
+
+
+describe "Tests" { 
+	const juan = new Usuario(perfil = fanatico) 
+	const ana = new Usuario(perfil = distinguido)
+	const pablo = new Usuario(perfil = aburrido)
+
+	const laHistoria = new ContenidoSimple(titulo = "La Historia Oficial", duracion = 112, director = "Puenzo", actores = ["Aleandro", "Alterio"])
+	const elSecreto = new ContenidoSimple(titulo = "El secreto de sus ojos", duracion = 140, director = "Campanella", actores = ["Darin", "Villamil","Francella"])
+	const luna = new ContenidoSimple(titulo = "Luna de Avellaneda", duracion = 123, director = "Campanella", actores = ["Moran", "Darin"])
+	const relatos = new ContenidoSimple(titulo = "Relatos Salvajes", duracion = 124, director = "Szifron", actores = ["Sbaraglia", "Darin"])
+	
+	const simpsonC1T1 = new ContenidoSimple(titulo = "Los Simpson Capitulo 1 Temporada 1", duracion = 40, director = "Groening")
+	const simpsonC2T1 = new ContenidoSimple(titulo = "Los Simpson Capitulo 2 Temporada 1", duracion = 40, director = "Groening")
+	const simpsonC3T1 = new ContenidoSimple(titulo = "Los Simpson Capitulo 3 Temporada 1", duracion = 40, director = "Groening")
+	const simpsonC1T2 = new ContenidoSimple(titulo = "Los Simpson Capitulo 1 Temporada 2", duracion = 40, director = "Groening")
+	const simpsonC2T2 = new ContenidoSimple(titulo = "Los Simpson Capitulo 2 Temporada 2", duracion = 40, director = "Groening", actores = ["Bart"])
+	const simpsonT1 = new ContenidoCompuesto(titulo ="Los Simpson Temporada 1", capitulos = [simpsonC1T1,simpsonC2T1,simpsonC3T1])
+	const simpsonT2 = new ContenidoCompuesto(titulo ="Los Simpson Temporada 2", capitulos = [simpsonC1T2,simpsonC2T2])
+	const simpson = new ContenidoCompuesto(titulo ="Los Simpson", capitulos = [simpsonT1,simpsonT2])
+	
+	
+	method initialize()  {
+		juan.ver(luna)
+		juan.ver(elSecreto)
+		juan.calificar(laHistoria ,5)
+		juan.calificar(elSecreto, 3)
+		juan.calificar(luna, 1)
+		ana.calificar(laHistoria,3)
+		ana.ver(elSecreto)
+		empresa.agregarContenido(luna)
+		empresa.agregarContenido(laHistoria)
+		empresa.agregarContenido(elSecreto)
+		empresa.agregarContenido(relatos)
+	}
+	
+	method escenarioAvanzado() {
+		
+		juan.ver(simpsonC1T1)
+		juan.ver(simpsonC2T1)
+		ana.ver(simpsonC2T1)
+		juan.calificar(simpsonC1T1 ,1)
+		juan.calificar(simpsonT1 ,3)
+		ana.calificar(simpson, 5)
+
+		empresa.agregarContenido(simpsonC1T1)
+		empresa.agregarContenido(simpsonC2T1)
+		empresa.agregarContenido(simpsonC3T1)
+		empresa.agregarContenido(simpsonC1T2)
+		empresa.agregarContenido(simpsonC2T2)
+		empresa.agregarContenido(simpsonT1)
+		empresa.agregarContenido(simpsonT2)
+		empresa.agregarContenido(simpson)
+		
+	}
+
+// Solo peliculas 
+test "Promedio de calificacion de la historia oficial es 4" {
+	assert.equals(4, laHistoria.calificacionPromedio())
+}
+
+test "La pelicula mejor calificada por un usario es el Secreto" {
+	assert.equals(elSecreto, juan.mejorCalificado())
+}
+
+test "Una sola pelicula sin calificar" {
+	assert.equals([relatos], empresa.sinCalificar())
+}
+
+test "Darin trabajo en Relatos Salvajes" {
+	assert.that(relatos.trabajo("Darin"))
+}
+
+
+//Mucho mas que peliculas
+
+test "Simpson capitulo1 temporada1, 3 de promedio de calificacion " {
+	self.escenarioAvanzado() 
+	assert.equals(3, simpsonC1T1.calificacionPromedio())
+}
+test "Simpson capitulo2 temporada1, 4 de promedio de calificacion " {
+	self.escenarioAvanzado() 
+	assert.equals(4, simpsonC2T1.calificacionPromedio())
+}
+
+test "Simpson temporada1, 4 de promedio de calificacion " {
+	self.escenarioAvanzado() 
+	assert.equals(4, simpsonT1.calificacionPromedio())
+}
+
+test "Simpson, 5 de promedio de calificacion " {
+	self.escenarioAvanzado() 
+	assert.equals(5, simpson.calificacionPromedio())
+}
+
+test "La pelicula mejor calificada por juan es el Secreto, aun calificando capitulos de los simpson" {
+	self.escenarioAvanzado() 
+	assert.equals(elSecreto, juan.mejorCalificado())
+}
+
+test "Pablo no vio nada, no se le puede sugerir " {
+	self.escenarioAvanzado() 
+	assert.throwsExceptionWithType(new NoVioNadaException(), {pablo.sugerencia()})
+}
+
+test "Una sola pelicula sin calificar, en escenario avanzado" {
+	assert.equals([relatos], empresa.sinCalificar())
+}
+
+test "Groening trabajo en los simpson" {
+	assert.that(simpson.trabajo("Groening"))
+}
+
+test "Bart trabajo en los simpson" {
+	assert.that(simpson.trabajo("Bart"))
+}
+
+// Sugerencias
+test "A juan se le sugiere ver Relatos salvajes, en escenario basico" {
+	//Mismo actor, Darin
+	assert.equals(relatos,juan.sugerencia())
+}
+
+test "No hay nada para sugerir a juan en escenario avanzado" {
+	//No hay actor en comun en capitulo de los simpson
+	self.escenarioAvanzado()
+	assert.throwsExceptionWithType(new NoHaySugerenciasException(), {juan.sugerencia()})
+//	assert.throwsException({juan.sugerencia()})
+	//assert.throwsExceptionWithType('hola', {juan.sugerencia()})
+}
+
+test "A ana se le sugiere ver luna de avellaneda, en escenario basico" {
+	// mismo director, Campanella
+	assert.equals(luna,ana.sugerencia())
+}
+test "A ana se le sugiere ver el capitulo 1 temporada 1 de los simpson, en escenario avanzado" {
+	// mismo director, Groening
+	self.escenarioAvanzado()
+	assert.equals(simpsonC1T1,ana.sugerencia())
+}
+}
