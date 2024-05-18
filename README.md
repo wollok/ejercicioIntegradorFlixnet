@@ -5,19 +5,21 @@
 
 ## Ejercicio integrador 
 
-![](flexnit.jpg)
+![Flexnit](./img/flexnit.jpg)
 
 **Hoy en día con un abono mensual, conexión a internet y una pantalla se puede ver una enorme cantidad de material audiovisual. Películas modernas y antiguas, trilogías u otras sagas, series, y lo que se les ocurra (o mejor dicho, lo que la empresa quiera) está disponible en todo momento. Lo interesante, es que se puede interactuar calificando el contenido y que -de alguna manera misteriosa- la empresa te va conociendo y te sugiere cosas para que ver.**
   
 Bien, pero no se trata de contar lo que ya se sabe, sino comenzar a delimitar lo que nos preocupa del problema y plantear lo que necesitamos.
 
 
-###Viendo películas
+### Viendo películas
+
 El material más simple para presentar es una película. Son muchas y de todas se conoce el título, su duración, el director y un conjunto de actores. 
 Como las películas no se ven solas, también necesitamos usuarios. Sabemos su nombre y apellido y la edad. Los usuarios pueden calificar una película con una escala de 0 a 5 estrellas (No es necesario que se vea la película para calificarla, lo puede haber visto en otro momento o simplemente ser trolls). Cuando un usuario ve una película, se lo registra.
 
 
-###Hacer los métodos que permitan
+### Hacer los métodos que permitan
+
 1. Que un usuario vea una película
 2. Que un usuario califique una película con una cantidad de estrellas.
 3. Calcular el promedio de todas las calificaciones que haya recibido una película de todos los usuarios.
@@ -25,7 +27,8 @@ Como las películas no se ven solas, también necesitamos usuarios. Sabemos su n
 5. Retornar el conjunto de películas que nadie calificó.
 6. Averiguar si es cierto que el actor o director indicado trabajó en la película
 
-###Mucho más que películas
+### Mucho más que películas
+
 Como se anticipaba, hay mucho más que películas para ver. Especialmente, lo que hizo conocida a la empresa, que son las series. 
 Una serie está conformada por una sucesión de capítulos, a veces organizados en temporadas. A veces se trata de historias que empiezan y terminan en cada capítulo (por ejemplo "Los Simuladores"), y en otras son historias con continuidad, como las clásicas novelas de la tarde (por ejemplo, 24). Puede haber series sin temporadas, o que combinan temporadas con capítulos sueltos.
 
@@ -43,7 +46,8 @@ Adaptar, rehacer o complementar los métodos anteriores para que contemplen la n
 6. Averiguar si es cierto que el actor o director indicado trabajó en un material audiovisual. En el caso de las series, sagas o temporadas, alcanza para ser cierto que haya trabajado en alguno de los capítulos. 
 
 
-###Sugerencias
+### Sugerencias
+
 Una de las características más importantes del sistema es poder sugerir nuevas cosas para ver. La sugerencia depende del perfil del usuario y de lo último que vio:
 - A un usuario distinguido, se le ofrece algo del mismo director. 
 - A un usuario fanático, se le ofrece algo donde trabaje un mismo actor.
